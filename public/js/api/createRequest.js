@@ -9,17 +9,24 @@ const createRequest = (options = {}) => {
     xhr.responseType = "json";
     try {
       if (method === "GET") {
-        const urlEncoded = new URL(url);
-        for (const prop of Object.entities(data)) {
-          urlEncoded.searchParams.append(prop[0], prop[1]);
+        const urlEncoded = new URL(url, "http://localhost:8000");
+        if (data) {
+          for (const prop of Object.entries(data)) {
+            urlEncoded.searchParams.append(prop[0], prop[1]);
+          }
         }
+
         xhr.open(method, urlEncoded);
         xhr.send();
-      } else if (method === "POST") {
-        const formData = new FormData();
-        for (const prop of Object.entities(data)) {
-          formData.append(prop[0], prop[1]);
+      } else {
+        let formData;
+        if (data) {
+          formData = new FormData();
+          for (const prop of Object.entries(data)) {
+            formData.append(prop[0], prop[1]);
+          }
         }
+        
         xhr.open(method, url);
         xhr.send(formData);
       }
@@ -28,7 +35,7 @@ const createRequest = (options = {}) => {
     }
   
     xhr.addEventListener("load", function () {
-      callback(null, JSON.parse(this.response));
+      callback(null, this.response);
     });
   
     xhr.addEventListener("error", function () {

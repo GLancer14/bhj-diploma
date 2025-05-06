@@ -85,9 +85,7 @@ class User {
       method: 'POST',
       data,
       callback: (err, response) => {
-        if (!response.success) {
-          
-        } else {
+        if (response.success) {
           this.setCurrent({id: response.user.id, name: response.user.name});
         }
 
@@ -104,7 +102,6 @@ class User {
     createRequest({
       url: this.URL + '/logout',
       method: 'POST',
-      data,
       callback: (err, response) => {
         if (response.success) {
           this.unsetCurrent();
