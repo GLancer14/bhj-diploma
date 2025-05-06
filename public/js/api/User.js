@@ -41,7 +41,7 @@ class User {
       url: this.URL + '/current',
       method: 'GET',
       callback: (err, response) => {
-        if (!success) {
+        if (!response.success) {
           this.unsetCurrent();
         } else {
           this.setCurrent({id: response.user.id, name: response.user.name});
@@ -85,7 +85,7 @@ class User {
       method: 'POST',
       data,
       callback: (err, response) => {
-        if (!success) {
+        if (!response.success) {
           
         } else {
           this.setCurrent({id: response.user.id, name: response.user.name});
@@ -106,7 +106,7 @@ class User {
       method: 'POST',
       data,
       callback: (err, response) => {
-        if (success) {
+        if (response.success) {
           this.unsetCurrent();
         }
 
