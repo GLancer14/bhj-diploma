@@ -14,7 +14,13 @@ class AccountsWidget {
    * необходимо выкинуть ошибку.
    * */
   constructor( element ) {
+    if (!element) {
+      throw new Error("Передайте элемент в конструктор");
+    }
 
+    this.element = element;
+    this.registerEvents();
+    this.update();
   }
 
   /**
@@ -25,7 +31,14 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-
+    document.querySelector(".create-account").addEventListener("click", function () {
+      const modal = App.getModal("createAccount");
+      modal.open();
+    });
+    this.element.addEventListener("click", e => {
+      e.preventDefault();
+      this.onSelectAccount(e.currentTarget);
+    });
   }
 
   /**
@@ -39,7 +52,13 @@ class AccountsWidget {
    * метода renderItem()
    * */
   update() {
-
+    const user = User.current();
+    if (user) {
+      Account.list(user, (err, response) => {
+        this.clear();
+        this.renderItem(response);
+      });
+    }
   }
 
   /**
@@ -48,7 +67,7 @@ class AccountsWidget {
    * в боковой колонке
    * */
   clear() {
-
+    document.querySelectorAll(".account").forEach(item => item.remove());
   }
 
   /**
@@ -59,7 +78,9 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount( element ) {
-
+    document.querySelectorAll(".account").forEach(item => item.classList.remove("active"));
+    element.classList.add("active");
+    App.showPage("transactions", {account_id: element.dataset.id});
   }
 
   /**
@@ -68,7 +89,14 @@ class AccountsWidget {
    * item - объект с данными о счёте
    * */
   getAccountHTML(item){
-
+    return `
+      <li class="active account" data-id="${item.id}">
+        <a href="#">
+          <span>${item.name}</span> /
+          <span>${item.sum} &#x20BD;</span>
+        </a>
+      </li>
+    `;
   }
 
   /**
@@ -78,6 +106,9 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
-
+    const accounts = data.data.reduce((acc, item) => {
+      return acc += this.getAccountHTML(item);
+    }, "");
+    document.querySelector(".accounts-panel").insertAdjacentHTML("beforeend", accounts);
   }
 }

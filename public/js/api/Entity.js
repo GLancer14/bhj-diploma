@@ -16,9 +16,9 @@ class Entity {
       method: "GET",
       callback: function (err, response) {
         if (err) {
-
+          callback(err);
         } else {
-          callback();
+          callback(null, response);
         }
       },
     });
@@ -36,9 +36,9 @@ class Entity {
       method: "PUT",
       callback: function (err, response) {
         if (err) {
-
+          callback(err);
         } else {
-          callback();
+          callback(null, response);
         }
       },
     });
