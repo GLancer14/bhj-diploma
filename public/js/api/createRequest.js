@@ -26,7 +26,7 @@ const createRequest = (options = {}) => {
             formData.append(prop[0], prop[1]);
           }
         }
-        
+
         xhr.open(method, url);
         xhr.send(formData);
       }

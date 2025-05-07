@@ -28,7 +28,7 @@ class User {
   static current() {
     const user = window.localStorage.getItem("user");
     if (user) {
-      return user;
+      return JSON.parse(user);
     }
   }
 
