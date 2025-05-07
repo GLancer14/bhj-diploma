@@ -19,8 +19,8 @@ class AccountsWidget {
     }
 
     this.element = element;
-    this.registerEvents();
     this.update();
+    this.registerEvents();
   }
 
   /**
@@ -34,10 +34,6 @@ class AccountsWidget {
     document.querySelector(".create-account").addEventListener("click", function () {
       const modal = App.getModal("createAccount");
       modal.open();
-    });
-    this.element.addEventListener("click", e => {
-      e.preventDefault();
-      this.onSelectAccount(e.currentTarget);
     });
   }
 
@@ -55,8 +51,20 @@ class AccountsWidget {
     const user = User.current();
     if (user) {
       Account.list(user, (err, response) => {
-        this.clear();
-        this.renderItem(response);
+        if (err) {
+          throw err;
+        }
+
+        if (response.success) {
+          this.clear();
+          this.renderItem(response);
+          document.querySelectorAll(".account").forEach(item => {
+            item.addEventListener("click", e => {
+              e.preventDefault();
+              this.onSelectAccount(e.currentTarget);
+            });
+          })
+        }
       });
     }
   }
@@ -77,7 +85,7 @@ class AccountsWidget {
    * счёта класс .active.
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
-  onSelectAccount( element ) {
+  onSelectAccount(element) {
     document.querySelectorAll(".account").forEach(item => item.classList.remove("active"));
     element.classList.add("active");
     App.showPage("transactions", {account_id: element.dataset.id});
@@ -90,7 +98,7 @@ class AccountsWidget {
    * */
   getAccountHTML(item){
     return `
-      <li class="active account" data-id="${item.id}">
+      <li class="account" data-id="${item.id}">
         <a href="#">
           <span>${item.name}</span> /
           <span>${item.sum} &#x20BD;</span>

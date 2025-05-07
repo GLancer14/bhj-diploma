@@ -55,9 +55,9 @@ class Entity {
       method: "DELETE",
       callback: function (err, response) {
         if (err) {
-
+          callback(err);
         } else {
-          callback();
+          callback(null, response);
         }
       },
     });
