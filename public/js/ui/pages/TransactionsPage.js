@@ -50,7 +50,7 @@ class TransactionsPage {
   removeAccount() {
     if (this.lastOptions) {
       if (confirm("Вы действительно хотите удалить счёт?")) {
-        Account.remove(this.lastOptions, (err, response) => {
+        Account.remove({id: this.lastOptions.account_id}, (err, response) => {
           if (err) {
             throw err;
           }
@@ -58,8 +58,7 @@ class TransactionsPage {
           if (response.success) {
             App.updateWidgets();
             App.updateForms();
-          } else {
-            alert(response.error);
+            this.clear();
           }
         });
       }
