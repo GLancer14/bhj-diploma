@@ -36,11 +36,6 @@ class TransactionsPage {
     document.querySelector(".remove-account").addEventListener("click", e => {
       this.removeAccount();
     });
-    document.querySelectorAll(".transaction__remove").forEach(item => {
-      item.addEventListener("click", e => {
-        this.removeTransaction(e.currentTarget.dataset.id);
-      });
-    });
   }
 
   /**
@@ -173,7 +168,7 @@ class TransactionsPage {
             <span class="fa fa-money fa-2x"></span>
           </div>
           <div class="transaction__info">
-            <h4 class="transaction__title">Новый будильник</h4>
+            <h4 class="transaction__title">${item.name}</h4>
             <div class="transaction__date">${this.formatDate(item.created_at)}</div>
           </div>
         </div>
@@ -198,5 +193,10 @@ class TransactionsPage {
   renderTransactions(data) {
     const content = document.querySelector(".content");
     content.innerHTML = data.reduce((acc, item) => acc += this.getTransactionHTML(item), "");
+    document.querySelectorAll(".transaction__remove").forEach(item => {
+      item.addEventListener("click", e => {
+        this.removeTransaction(e.currentTarget.dataset.id);
+      });
+    });
   }
 }
