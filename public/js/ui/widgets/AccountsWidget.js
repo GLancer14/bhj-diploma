@@ -19,8 +19,8 @@ class AccountsWidget {
     }
 
     this.element = element;
-    this.update();
     this.registerEvents();
+    this.update();
   }
 
   /**
@@ -31,9 +31,15 @@ class AccountsWidget {
    * вызывает AccountsWidget.onSelectAccount()
    * */
   registerEvents() {
-    document.querySelector(".create-account").addEventListener("click", function () {
-      const modal = App.getModal("createAccount");
-      modal.open();
+    document.querySelector(".create-account").addEventListener("click", () => App.getModal("createAccount").open());
+  }
+
+  registerAccountElementsEvents() {
+    document.querySelectorAll(".account").forEach(item => {
+      item.addEventListener("click", e => {
+        e.preventDefault();
+        this.onSelectAccount(e.currentTarget);
+      });
     });
   }
 
@@ -51,19 +57,10 @@ class AccountsWidget {
     const user = User.current();
     if (user) {
       Account.list(user, (err, response) => {
-        if (err) {
-          throw err;
-        }
-
         if (response.success) {
           this.clear();
-          this.renderItem(response);
-          document.querySelectorAll(".account").forEach(item => {
-            item.addEventListener("click", e => {
-              e.preventDefault();
-              this.onSelectAccount(e.currentTarget);
-            });
-          })
+          this.renderItem(response.data);
+          this.registerAccountElementsEvents();
         }
       });
     }
@@ -86,7 +83,7 @@ class AccountsWidget {
    * Вызывает App.showPage( 'transactions', { account_id: id_счёта });
    * */
   onSelectAccount(element) {
-    document.querySelectorAll(".account").forEach(item => item.classList.remove("active"));
+    this.element.querySelector(".active")?.classList.remove("active");
     element.classList.add("active");
     App.showPage("transactions", {account_id: element.dataset.id});
   }
@@ -114,9 +111,9 @@ class AccountsWidget {
    * и добавляет его внутрь элемента виджета
    * */
   renderItem(data){
-    const accounts = data.data.reduce((acc, item) => {
+    const accounts = data.reduce((acc, item) => {
       return acc += this.getAccountHTML(item);
     }, "");
-    document.querySelector(".accounts-panel").insertAdjacentHTML("beforeend", accounts);
+    this.element.insertAdjacentHTML("beforeend", accounts);
   }
 }

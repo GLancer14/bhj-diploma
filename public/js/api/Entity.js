@@ -9,12 +9,18 @@ class Entity {
    * Это могут быть счета или доходы/расходы
    * (в зависимости от того, что наследуется от Entity)
    * */
-  static list(data, callback){
+  static list(data, callback) {
     createRequest({
       url: this.URL,
       data,
       method: "GET",
-      callback: (err, response) => err ? callback(err) : callback(null, response),
+      callback: (err, response) => {
+        if (err) {
+          throw err;
+        }
+
+       callback(err, response);
+      },
     });
   }
 
@@ -28,7 +34,13 @@ class Entity {
       url: this.URL,
       data,
       method: "PUT",
-      callback: (err, response) => err ? callback(err) : callback(null, response),
+      callback: (err, response) => {
+        if (err) {
+          throw err;
+        }
+
+       callback(err, response);
+      },
     });
   }
 

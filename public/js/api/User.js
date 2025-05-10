@@ -65,6 +65,10 @@ class User {
       responseType: 'json',
       data,
       callback: (err, response) => {
+        if (err) {
+          throw err;
+        }
+
         if (response && response.user) {
           this.setCurrent(response.user);
         }
@@ -85,6 +89,10 @@ class User {
       method: 'POST',
       data,
       callback: (err, response) => {
+        if (err) {
+          throw err;
+        }
+
         if (response.success) {
           this.setCurrent({id: response.user.id, name: response.user.name});
         }
