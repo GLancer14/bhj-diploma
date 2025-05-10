@@ -11,8 +11,8 @@ const createRequest = (options = {}) => {
       if (method === "GET") {
         const urlEncoded = new URL(url, "http://localhost:8000");
         if (data) {
-          for (const prop of Object.entries(data)) {
-            urlEncoded.searchParams.append(prop[0], prop[1]);
+          for (const [key, value] of Object.entries(data)) {
+            urlEncoded.searchParams.append(key, value);
           }
         }
 
@@ -31,15 +31,15 @@ const createRequest = (options = {}) => {
         xhr.send(formData);
       }
     } catch (e) {
-      callback(new Error(xhr.statusText));
+      callback(e);
     }
   
     xhr.addEventListener("load", function () {
       callback(null, this.response);
     });
-  
+
     xhr.addEventListener("error", function () {
-      callback(new Error(this.statusText));
+      callback(new Error("Request error"));
     });
   }
 };
