@@ -25,8 +25,6 @@ class CreateTransactionForm extends AsyncForm {
           return acc += `<option value="${item.id}">${item.name}</option>`;
         }, "");
         transactionFormSelect.innerHTML = optionsHTML;
-      } else {
-        alert(response.error);
       }
     });
   }
