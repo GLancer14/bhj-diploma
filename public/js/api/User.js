@@ -47,7 +47,7 @@ class User {
           this.setCurrent({id: response.user.id, name: response.user.name});
         }
 
-        callback(err, response);
+        callback();
       },
     });
   }
