@@ -19,16 +19,12 @@ class CreateTransactionForm extends AsyncForm {
   renderAccountsList() {
     const user = User.current();
     Account.list(user, (err, response) => {
-      if (err) {
-        throw err;
-      }
-
       if (response.success) {
-        const transactionFormSelects = document.querySelectorAll(".accounts-select");
+        const transactionFormSelect = this.element.querySelector(".accounts-select");
         const optionsHTML = response.data.reduce((acc, item) => {
           return acc += `<option value="${item.id}">${item.name}</option>`;
         }, "");
-        transactionFormSelects.forEach(item => item.innerHTML = optionsHTML);
+        transactionFormSelect.innerHTML = optionsHTML;
       } else {
         alert(response.error);
       }
@@ -43,13 +39,9 @@ class CreateTransactionForm extends AsyncForm {
    * */
   onSubmit(data) {
     Transaction.create(data, (err, response) => {
-      if (err) {
-        throw err;
-      }
-
       if (response.success) {
         const modal = App.getModal(this.element.closest(".modal").dataset.modalId);
-        modal.element.querySelector("form").reset();
+        this.element.reset();
         App.update();
         modal.close();
       } else {

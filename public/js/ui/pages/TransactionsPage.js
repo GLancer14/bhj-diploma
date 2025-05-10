@@ -10,7 +10,7 @@ class TransactionsPage {
    * Сохраняет переданный элемент и регистрирует события
    * через registerEvents()
    * */
-  constructor( element ) {
+  constructor(element) {
     if (!element) {
       throw err;
     }
@@ -33,8 +33,12 @@ class TransactionsPage {
    * TransactionsPage.removeAccount соответственно
    * */
   registerEvents() {
-    document.querySelector(".remove-account").addEventListener("click", e => {
-      this.removeAccount();
+    this.element.querySelector(".remove-account").addEventListener("click", () => this.removeAccount());
+  }
+
+  registerTransactionDeleteButtonsEvents() {
+    this.element.querySelectorAll(".transaction__remove").forEach(item => {
+      item.addEventListener("click", e => this.removeTransaction(e.currentTarget.dataset.id));
     });
   }
 
@@ -51,10 +55,6 @@ class TransactionsPage {
     if (this.lastOptions) {
       if (confirm("Вы действительно хотите удалить счёт?")) {
         Account.remove({id: this.lastOptions.account_id}, (err, response) => {
-          if (err) {
-            throw err;
-          }
-
           if (response.success) {
             App.updateWidgets();
             App.updateForms();
@@ -71,13 +71,9 @@ class TransactionsPage {
    * По удалению транзакции вызовите метод App.update(),
    * либо обновляйте текущую страницу (метод update) и виджет со счетами
    * */
-  removeTransaction( id ) {
+  removeTransaction(id) {
     if (confirm("Вы действительно хотите удалить эту транзакцию?")) {
       Transaction.remove({id}, (err, response) => {
-        if (err) {
-          throw err;
-        }
-
         if (response.success) {
           App.update();
         } else {
@@ -97,10 +93,6 @@ class TransactionsPage {
     if (options) {
       this.lastOptions = options;
       Account.get(options.account_id, (err, response) => {
-        if (err) {
-          throw err;
-        }
-
         if (response.success) {
           this.renderTitle(response.data.name);
         } else {
@@ -109,10 +101,6 @@ class TransactionsPage {
       });
 
       Transaction.list(options, (err, response) => {
-        if (err) {
-          throw err;
-        }
-
         if (response.success) {
           this.renderTransactions(response.data);
         } else {
@@ -137,7 +125,7 @@ class TransactionsPage {
    * Устанавливает заголовок в элемент .content-title
    * */
   renderTitle(name) {
-    document.querySelector(".content-title").textContent = name;
+    this.element.querySelector(".content-title").textContent = name;
   }
 
   /**
@@ -190,12 +178,8 @@ class TransactionsPage {
    * используя getTransactionHTML
    * */
   renderTransactions(data) {
-    const content = document.querySelector(".content");
+    const content = this.element.querySelector(".content");
     content.innerHTML = data.reduce((acc, item) => acc += this.getTransactionHTML(item), "");
-    document.querySelectorAll(".transaction__remove").forEach(item => {
-      item.addEventListener("click", e => {
-        this.removeTransaction(e.currentTarget.dataset.id);
-      });
-    });
+    this.registerTransactionDeleteButtonsEvents();
   }
 }

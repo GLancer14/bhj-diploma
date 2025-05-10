@@ -53,7 +53,13 @@ class Entity {
       url: this.URL,
       data,
       method: "DELETE",
-      callback: (err, response) => err ? callback(err) : callback(null, response),
+      callback: (err, response) => {
+        if (err) {
+          throw err;
+        }
+
+       callback(err, response);
+      },
     });
   }
 }
