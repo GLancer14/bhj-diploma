@@ -17,6 +17,12 @@
       "email": "demo3@demo.ru",
       "password": "demo",
       "id": "1bn9rt1owmadkcg7o"
+    },
+    {
+      "name": "demo5",
+      "email": "demo5@demo",
+      "password": "demo",
+      "id": "1bn9rt91wmaih8uer"
     }
   ],
   "accounts": [
@@ -44,6 +50,16 @@
       "name": "Магнит",
       "user_id": "1",
       "id": "1bn9rt8c8maig4r96"
+    },
+    {
+      "name": "Банк",
+      "user_id": "1bn9rt91wmaih8uer",
+      "id": "1bn9rt7msmaih9mgq"
+    },
+    {
+      "name": "Работа",
+      "user_id": "1bn9rt91wmaih8uer",
+      "id": "1bn9rt7ngmaiheue4"
     }
   ],
   "transactions": [
@@ -199,6 +215,51 @@
       "account_id": "1bn9rt6scmadtxj5n",
       "user_id": "1",
       "created_at": "2025-05-08T07:23:24.364Z"
+    },
+    {
+      "id": "1bn9rt10omaiha825",
+      "type": "income",
+      "name": "Процент от вклада",
+      "sum": 1000,
+      "account_id": "1bn9rt7msmaih9mgq",
+      "user_id": "1bn9rt91wmaih8uer",
+      "created_at": "2025-05-10T17:07:35.116Z"
+    },
+    {
+      "id": "1bn9rt5dgmaihal3d",
+      "type": "expense",
+      "name": "Уведомления",
+      "sum": 50,
+      "account_id": "1bn9rt7msmaih9mgq",
+      "user_id": "1bn9rt91wmaih8uer",
+      "created_at": "2025-05-10T17:07:52.008Z"
+    },
+    {
+      "id": "1bn9rt79smaihf3cv",
+      "type": "income",
+      "name": "Зарплата",
+      "sum": 30000,
+      "account_id": "1bn9rt7ngmaiheue4",
+      "user_id": "1bn9rt91wmaih8uer",
+      "created_at": "2025-05-10T17:11:22.302Z"
+    },
+    {
+      "id": "1bn9rt83gmaihfdz0",
+      "type": "expense",
+      "name": "Проезд",
+      "sum": 3000,
+      "account_id": "1bn9rt7ngmaiheue4",
+      "user_id": "1bn9rt91wmaih8uer",
+      "created_at": "2025-05-10T17:11:36.059Z"
+    },
+    {
+      "id": "1bn9rt10kmaihia5b",
+      "type": "expense",
+      "name": "Питание",
+      "sum": 2000,
+      "account_id": "1bn9rt7ngmaiheue4",
+      "user_id": "1bn9rt91wmaih8uer",
+      "created_at": "2025-05-10T17:13:51.070Z"
     }
   ]
 }
