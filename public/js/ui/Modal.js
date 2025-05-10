@@ -48,6 +48,6 @@ class Modal {
    * Закрывает окно: удаляет CSS-свойство display
    * */
   close() {
-    this.element.style.display = "none";
+    this.element.style.removeProperty("display");
   }
 }

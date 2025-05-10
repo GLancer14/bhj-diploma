@@ -36,13 +36,11 @@ class Sidebar {
   static initAuthLinks() {
     document.querySelector(`.menu-item_login a`).addEventListener("click", function (e) {
       e.preventDefault();
-      const modal = App.getModal("login");
-      modal.open();
+      App.getModal("login").open();
     });
     document.querySelector(`.menu-item_register a`).addEventListener("click", function (e) {
       e.preventDefault();
-      const modal = App.getModal("register");
-      modal.open();
+      App.getModal("register").open();
     });
     document.querySelector(`.menu-item_logout a`).addEventListener("click", function (e) {
       e.preventDefault();
